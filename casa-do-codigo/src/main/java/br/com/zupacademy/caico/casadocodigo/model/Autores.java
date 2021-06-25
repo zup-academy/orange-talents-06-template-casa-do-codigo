@@ -38,6 +38,7 @@ public class Autores {
 	@CreationTimestamp
 	private LocalDateTime dataCriacao;
 	
+	@Deprecated
 	public Autores() {
 		
 	}
