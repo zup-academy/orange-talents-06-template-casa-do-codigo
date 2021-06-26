@@ -1,4 +1,4 @@
-package br.com.zupacademy.caico.casadocodigo.controller;
+package br.com.zupacademy.caico.casadocodigo.categorias;
 
 import javax.validation.Valid;
 
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.zupacademy.caico.casadocodigo.dto.CategoriaFormDTO;
-import br.com.zupacademy.caico.casadocodigo.dto.CategoriaRespDTO;
-import br.com.zupacademy.caico.casadocodigo.repository.CategoriaRepository;
 import br.com.zupacademy.caico.casadocodigo.validators.ValidaNomeRepetidoCategoria;
 
 @RestController
@@ -20,7 +17,7 @@ import br.com.zupacademy.caico.casadocodigo.validators.ValidaNomeRepetidoCategor
 public class CategoriaController {
 
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private CategoriaRepository categoriaRepository;	
 	
 	@Autowired
 	private ValidaNomeRepetidoCategoria validaNomeRepetidoCategoria;
@@ -29,6 +26,7 @@ public class CategoriaController {
 	public void init(WebDataBinder binder) {
 		binder.addValidators(validaNomeRepetidoCategoria);
 	}
+
 	
 	@PostMapping
 	public CategoriaRespDTO cadastrar(@Valid @RequestBody CategoriaFormDTO categoriaFormDTO) {

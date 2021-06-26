@@ -1,4 +1,4 @@
-package br.com.zupacademy.caico.casadocodigo.dto;
+package br.com.zupacademy.caico.casadocodigo.categorias;
 
 public class CategoriaRespDTO {
 
