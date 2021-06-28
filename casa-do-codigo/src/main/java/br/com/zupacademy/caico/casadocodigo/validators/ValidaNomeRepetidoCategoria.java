@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import br.com.zupacademy.caico.casadocodigo.dto.CategoriaFormDTO;
-import br.com.zupacademy.caico.casadocodigo.model.Categorias;
-import br.com.zupacademy.caico.casadocodigo.repository.CategoriaRepository;
+import br.com.zupacademy.caico.casadocodigo.categorias.CategoriaFormDTO;
+import br.com.zupacademy.caico.casadocodigo.categorias.CategoriaRepository;
+import br.com.zupacademy.caico.casadocodigo.categorias.Categorias;
 
 @Component
 public class ValidaNomeRepetidoCategoria implements Validator{
-	
+
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
@@ -28,15 +28,17 @@ public class ValidaNomeRepetidoCategoria implements Validator{
 			return;
 		}
 		
-		CategoriaFormDTO categoriaRequest = (CategoriaFormDTO) target;
+		CategoriaFormDTO autorRequest = (CategoriaFormDTO) target;
 		
-		Optional<Categorias> categoriaCadastrada = categoriaRepository.findByNome(categoriaRequest.getNome());
+		Optional<Categorias> categoriaCadastrada = categoriaRepository.findByNome(autorRequest.getNome());
 		
 		if (categoriaCadastrada.isPresent()) {
 			errors.rejectValue("nome", null, 
-						"Já existe uma categoria cadastrada com o mesmo nome! "
-						+ categoriaRequest.getNome());
+						"Já existe uma cadastrada com o mesmo nome! "
+						+ autorRequest.getNome());
 		}
 	}
+	
+	
 
 }

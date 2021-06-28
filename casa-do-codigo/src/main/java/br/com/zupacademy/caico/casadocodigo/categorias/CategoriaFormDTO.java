@@ -1,14 +1,14 @@
-package br.com.zupacademy.caico.casadocodigo.dto;
+package br.com.zupacademy.caico.casadocodigo.categorias;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.zupacademy.caico.casadocodigo.model.Categorias;
-import br.com.zupacademy.caico.casadocodigo.repository.CategoriaRepository;
+import br.com.zupacademy.caico.casadocodigo.validators.UniqueValue;
 
 public class CategoriaFormDTO {
 
 	@NotNull @NotEmpty
+	@UniqueValue(domainClass = Categorias.class, fieldName = "nome")
 	private String nome;
 	
 	@Deprecated

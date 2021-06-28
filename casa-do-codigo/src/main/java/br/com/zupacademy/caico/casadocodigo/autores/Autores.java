@@ -1,4 +1,4 @@
-package br.com.zupacademy.caico.casadocodigo.model;
+package br.com.zupacademy.caico.casadocodigo.autores;
 
 import java.time.LocalDateTime;
 

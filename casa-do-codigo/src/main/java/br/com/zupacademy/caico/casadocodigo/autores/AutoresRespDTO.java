@@ -1,8 +1,6 @@
-package br.com.zupacademy.caico.casadocodigo.dto;
+package br.com.zupacademy.caico.casadocodigo.autores;
 
 import java.time.LocalDateTime;
-
-import br.com.zupacademy.caico.casadocodigo.model.Autores;
 
 public class AutoresRespDTO {
 	

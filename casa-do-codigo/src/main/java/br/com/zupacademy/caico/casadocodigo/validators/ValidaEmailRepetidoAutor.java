@@ -7,9 +7,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import br.com.zupacademy.caico.casadocodigo.dto.AutoresFormDTO;
-import br.com.zupacademy.caico.casadocodigo.model.Autores;
-import br.com.zupacademy.caico.casadocodigo.repository.AutoresRepository;
+import br.com.zupacademy.caico.casadocodigo.autores.Autores;
+import br.com.zupacademy.caico.casadocodigo.autores.AutoresFormDTO;
+import br.com.zupacademy.caico.casadocodigo.autores.AutoresRepository;
 
 @Component
 public class ValidaEmailRepetidoAutor implements Validator{

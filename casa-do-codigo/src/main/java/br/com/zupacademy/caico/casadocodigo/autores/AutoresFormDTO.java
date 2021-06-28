@@ -1,4 +1,4 @@
-package br.com.zupacademy.caico.casadocodigo.dto;
+package br.com.zupacademy.caico.casadocodigo.autores;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -7,9 +7,6 @@ import org.hibernate.annotations.NotFound;
 import org.hibernate.validator.constraints.Length;
 
 import com.sun.istack.NotNull;
-
-import br.com.zupacademy.caico.casadocodigo.model.Autores;
-import br.com.zupacademy.caico.casadocodigo.repository.AutoresRepository;
 
 public class AutoresFormDTO {
 	
