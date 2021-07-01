@@ -7,7 +7,9 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.zypacademy.casaDoCodigo.controller.Dto.AutorDto;
 import br.com.zypacademy.casaDoCodigo.controller.form.AutorForm;
+import br.com.zypacademy.casaDoCodigo.controller.validator.ProibeEmailDuplicadoAutorValidator;
 import br.com.zypacademy.casaDoCodigo.model.Autor;
 import br.com.zypacademy.casaDoCodigo.repository.AutorRepository;
 
@@ -25,6 +28,14 @@ public class AutorController {
 	
 	@Autowired
 	private AutorRepository autorRepository;
+	
+	@Autowired
+	private ProibeEmailDuplicadoAutorValidator proibeEmailDuplicadoAutorValidator;
+	
+	@InitBinder
+	public void init(WebDataBinder binder) {
+		binder.addValidators(proibeEmailDuplicadoAutorValidator);
+	}
 
 	@GetMapping
 	public List<AutorDto> lista(){
