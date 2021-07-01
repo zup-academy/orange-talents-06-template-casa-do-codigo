@@ -8,7 +8,7 @@ import br.com.zupacademy.caico.casadocodigo.validators.UniqueValue;
 
 public class PaisFormDTO {
 	
-	@NotNull @NotEmpty @UniqueValue(domainClass = Paises.class, fieldName = "nome", message = "Já existe um país cadastrado com esse nome!")
+	@NotNull @NotEmpty @UniqueValue(domainClass = Paises.class, fieldName = "nome")
 	private String nome;
 	
 	@Deprecated

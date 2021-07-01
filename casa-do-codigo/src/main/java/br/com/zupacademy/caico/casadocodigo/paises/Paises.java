@@ -15,7 +15,7 @@ public class Paises {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotNull @NotEmpty @UniqueValue(domainClass = Paises.class, fieldName = "nome", message = "Já existe um país cadastrado com esse nome!")
+	@NotNull @NotEmpty @UniqueValue(domainClass = Paises.class, fieldName = "nome")
 	private String nome;
 	
 	@Deprecated
