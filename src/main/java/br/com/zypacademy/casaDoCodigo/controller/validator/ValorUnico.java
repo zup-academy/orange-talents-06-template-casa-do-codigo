@@ -15,15 +15,23 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { CategoriaUnicaValidator.class })
+@Constraint(validatedBy = { ValorUnicoValidator.class })
 
-public @interface CategoriaUnica {
-	String message() default "Categoria não pode ter a mesma descrição.";
+public @interface ValorUnico {
+	
+	String message() default "";
 
 	Class<?>[] groups() default { };
 
 	Class<? extends Payload>[] payload() default { };
+			
+	Class<?> domainClass();
+	
 }

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.com.zypacademy.casaDoCodigo.controller.validator.ValorUnico;
 import br.com.zypacademy.casaDoCodigo.model.Autor;
 
 public class AutorForm {
@@ -14,6 +15,7 @@ public class AutorForm {
 	private String nome;
 	@NotNull @NotEmpty @Email
 	@Size(min=3, max=50)
+	@ValorUnico(domainClass = AutorForm.class, message = "Valor do email deve ser único")
 	private String email;
 	@NotNull @NotEmpty
 	@Size(min=3, max=400)

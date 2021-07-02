@@ -29,13 +29,13 @@ public class AutorController {
 	@Autowired
 	private AutorRepository autorRepository;
 	
-	@Autowired
-	private ProibeEmailDuplicadoAutorValidator proibeEmailDuplicadoAutorValidator;
+	//@Autowired
+	//private ProibeEmailDuplicadoAutorValidator proibeEmailDuplicadoAutorValidator;
 	
-	@InitBinder
-	public void init(WebDataBinder binder) {
-		binder.addValidators(proibeEmailDuplicadoAutorValidator);
-	}
+	//@InitBinder
+	//public void init(WebDataBinder binder) {
+		//binder.addValidators(proibeEmailDuplicadoAutorValidator);
+	//}
 
 	@GetMapping
 	public List<AutorDto> lista(){
