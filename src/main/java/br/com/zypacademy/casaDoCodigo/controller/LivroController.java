@@ -1,12 +1,14 @@
 package br.com.zypacademy.casaDoCodigo.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,12 @@ public class LivroController {
 	@Autowired
 	private AutorRepository autorRepository;
 
+	
+	@GetMapping
+	public List<LivroDto> listar() {
+		return LivroDto.converter(livroRepository.findAll()); 
+	}
+	
 	@PostMapping
 	public ResponseEntity<LivroDto> criar(@RequestBody @Valid LivroRequest request, HttpServletResponse response) {
 		Livro livro = request.toModel(categoriaRepository, autorRepository);
