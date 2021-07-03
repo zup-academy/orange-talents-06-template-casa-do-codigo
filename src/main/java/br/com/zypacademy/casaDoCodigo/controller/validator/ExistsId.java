@@ -18,10 +18,8 @@ import javax.validation.Payload;
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = { ValorUnicoValidator.class })
-
-public @interface ValorUnico {
-	
+@Constraint(validatedBy = { ExistsIdValidator.class })
+public @interface ExistsId {
 	String message() default "";
 
 	Class<?>[] groups() default { };
@@ -31,5 +29,4 @@ public @interface ValorUnico {
 	Class<?> domainClass();
 	
 	String fieldName();
-		
 }

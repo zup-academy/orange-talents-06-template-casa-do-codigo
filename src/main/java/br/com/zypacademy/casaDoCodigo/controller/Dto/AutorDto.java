@@ -34,10 +34,12 @@ public class AutorDto {
 		return instante;
 	}
 	
-	public static List<AutorDto> converter(List<Autor> autores) {
+	public static List<AutorDto> toModel(List<Autor> autores) {
 		// TODO Auto-generated method stub
 		return autores.stream().map(AutorDto:: new).collect(Collectors.toList());
 	}
+	
+	
 	
 	
 	

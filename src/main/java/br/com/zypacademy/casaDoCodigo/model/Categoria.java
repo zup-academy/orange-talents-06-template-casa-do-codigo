@@ -10,17 +10,19 @@ public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
-	
 	private String nome;
 
 	public Categoria() {
-	
+
 	}
-	
+
 	public Categoria(String nome) {
 		this.nome = nome;
 	}
 
+	public Categoria(Categoria categoria) {
+		this.nome = categoria.getNome();
+	}
 	public Long getCodigo() {
 		return codigo;
 	}
@@ -28,6 +30,5 @@ public class Categoria {
 	public String getNome() {
 		return nome;
 	}
-	
-	
+
 }

@@ -21,4 +21,8 @@ public class CategoriaDto {
 		return categorias.stream().map(CategoriaDto:: new).collect(Collectors.toList());
 	}
 
+	
+	
+	
+
 }

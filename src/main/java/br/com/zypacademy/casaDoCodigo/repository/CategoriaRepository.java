@@ -8,6 +8,6 @@ import br.com.zypacademy.casaDoCodigo.model.Categoria;
 
 public interface CategoriaRepository extends JpaRepository<Categoria, Long>{
 
-	Optional<Categoria> findByNome(String nome);
+	Optional<Categoria> findByNome(Object value);
 
 }
