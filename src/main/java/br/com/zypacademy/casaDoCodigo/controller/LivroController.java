@@ -2,6 +2,7 @@ package br.com.zypacademy.casaDoCodigo.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -9,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,6 +55,15 @@ public class LivroController {
 
 		return ResponseEntity.created(uri).body(new LivroDto(livroSalvo));
 
+	}
+	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<LivroDto> buscarPeloCodigo(@PathVariable Long id) {
+		Optional<Livro> livro = this.livroRepository.findById(id);
+		LivroDto livroDto = new LivroDto(livro.get());
+		return livro.isPresent() ? 
+				ResponseEntity.ok(livroDto) : ResponseEntity.notFound().build();
 	}
 
 }
