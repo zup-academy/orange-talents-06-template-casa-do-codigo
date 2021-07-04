@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Estado {
 	@Id
@@ -14,7 +16,7 @@ public class Estado {
 	private Long codigo;
 
 	private String nome;
-
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "codigo_pais")
 	private Pais pais;
