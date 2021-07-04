@@ -17,9 +17,11 @@ import br.com.zypacademy.casaDoCodigo.controller.validator.ExistsId;
 import br.com.zypacademy.casaDoCodigo.controller.validator.ValorUnico;
 import br.com.zypacademy.casaDoCodigo.model.Autor;
 import br.com.zypacademy.casaDoCodigo.model.Categoria;
+import br.com.zypacademy.casaDoCodigo.model.Estado;
 import br.com.zypacademy.casaDoCodigo.model.Livro;
 import br.com.zypacademy.casaDoCodigo.repository.AutorRepository;
 import br.com.zypacademy.casaDoCodigo.repository.CategoriaRepository;
+import br.com.zypacademy.casaDoCodigo.repository.PaisRepository;
 
 public class LivroRequest {
 
@@ -45,7 +47,7 @@ public class LivroRequest {
 	@JsonFormat(pattern = "dd/MM/yyyy", shape = Shape.STRING)
 	private LocalDateTime entrada;
 	@NotNull
-	@ExistsId(domainClass = Autor.class, message = "Código da categoria deve existir", fieldName = "codigo")
+	@ExistsId(domainClass = Categoria.class, message = "Código da categoria deve existir", fieldName = "codigo")
 	private Long codigoCategoria;
 	@NotNull
 	@ExistsId(domainClass = Autor.class, message = "Código do autor deve existir", fieldName = "codigo")
@@ -88,4 +90,5 @@ public class LivroRequest {
 		return autor;
 	}
 
+	
 }
