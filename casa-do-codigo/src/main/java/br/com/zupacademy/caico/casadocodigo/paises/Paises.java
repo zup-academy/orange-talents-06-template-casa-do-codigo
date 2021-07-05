@@ -7,15 +7,13 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import br.com.zupacademy.caico.casadocodigo.validators.UniqueValue;
-
 @Entity
 public class Paises {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotNull @NotEmpty @UniqueValue(domainClass = Paises.class, fieldName = "nome")
+	@NotNull @NotEmpty
 	private String nome;
 	
 	@Deprecated

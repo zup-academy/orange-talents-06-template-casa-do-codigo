@@ -11,8 +11,6 @@ import javax.validation.constraints.NotNull;
 
 import br.com.zupacademy.caico.casadocodigo.estados.Estados;
 import br.com.zupacademy.caico.casadocodigo.paises.Paises;
-import br.com.zupacademy.caico.casadocodigo.validators.NaoCadastrado;
-import br.com.zupacademy.caico.casadocodigo.validators.UniqueValue;
 
 @Entity
 public class Clientes {
@@ -21,7 +19,7 @@ public class Clientes {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotBlank @UniqueValue(domainClass = Clientes.class, fieldName = "email")
+	@NotBlank
 	private String email;
 
 	@NotBlank
@@ -49,7 +47,7 @@ public class Clientes {
 	private String cidade;
 	
 	@NotNull
-	@ManyToOne @NaoCadastrado(domainClass = Paises.class, fieldName = "id")
+	@ManyToOne
 	private Paises paises;
 	
 	@ManyToOne
