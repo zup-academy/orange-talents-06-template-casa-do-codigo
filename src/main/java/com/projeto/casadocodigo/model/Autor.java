@@ -1,49 +1,49 @@
 package com.projeto.casadocodigo.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
 
 @Entity
+@EnableJpaAuditing
 public class Autor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @NotBlank
+    @Column(name = "nome", nullable = false, unique = true)
     private String nome;
     @NotBlank
     @Email
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
     @NotBlank
     @Size(max = 400)
+    @Column(name = "descricao", nullable = false)
     private String descricao;
 
-    @NotNull
 
+    @CreationTimestamp
+    @Column(name = "instanteAutor", nullable = false)
     private LocalDateTime instanteAutor;
 
-    public void setInstanteAutor(LocalDateTime instanteAutor) {
-        this.instanteAutor = instanteAutor;
-    }
-    public Autor() {
-        this.instanteAutor = LocalDateTime.now();
-    }
-    public LocalDateTime getInstanteAutor() {
-        return instanteAutor;
+    public Long getId() {
+        return id;
     }
 
     public String getNome() {
         return nome;
     }
+
     public String getEmail() {
         return email;
     }
@@ -59,5 +59,10 @@ public class Autor {
     public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
+
+    public LocalDateTime getInstanteAutor() {
+        return instanteAutor;
+    }
+
 
 }
