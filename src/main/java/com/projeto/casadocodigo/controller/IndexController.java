@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 
 @Controller
 @RestController
@@ -16,9 +15,12 @@ public class IndexController {
     @Autowired
     AutorRepository autorRepository;
 
-    @PostMapping(value="/cadastrar", produces = "application/json")
-    public ResponseEntity<Autor> novoAutor(@RequestBody Autor autor){
+
+    @PostMapping(value = "/cadastrar", produces = "application/json")
+    public ResponseEntity<Autor> novoAutor(@RequestBody Autor autor) {
+
         Autor novoAutor = autorRepository.save(autor);
         return ResponseEntity.ok(novoAutor);
     }
+
 }
