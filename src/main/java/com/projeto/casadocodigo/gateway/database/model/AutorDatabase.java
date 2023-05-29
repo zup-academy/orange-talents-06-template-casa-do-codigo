@@ -1,40 +1,45 @@
-package com.projeto.casadocodigo.model;
+package com.projeto.casadocodigo.gateway.database.model;
 
+import com.projeto.casadocodigo.domain.autor.Autor;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDateTime;
 
 @Entity
-@EnableJpaAuditing
-public class Autor {
+public class AutorDatabase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotBlank
     @Column(name = "nome", nullable = false, unique = true)
     private String nome;
-    @NotBlank
-    @Email
+
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @NotBlank
-    @Size(max = 400)
+
     @Column(name = "descricao", nullable = false)
     private String descricao;
 
-
-    @CreationTimestamp
     @Column(name = "instanteAutor", nullable = false)
+    @CreationTimestamp
     private LocalDateTime instanteAutor;
+
+    public AutorDatabase() {
+        // Construtor vazio necessário para o JPA
+    }
+    public AutorDatabase(Long id, String nome, String email, String descricao) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.descricao = descricao;
+
+    }
+
+    public static AutorDatabase model(Autor autor) {
+        return new AutorDatabase(autor.getId(), autor.getNome(), autor.getEmail(), autor.getDescricao());
+    }
 
     public Long getId() {
         return id;
@@ -60,9 +65,8 @@ public class Autor {
         this.descricao = descricao;
     }
 
-    public LocalDateTime getInstanteAutor() {
-        return instanteAutor;
-    }
+
 
 
 }
+
