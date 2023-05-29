@@ -53,19 +53,13 @@ public class AutorDatabase {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getDescricao() {
         return descricao;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public LocalDateTime getInstanteAutor() {
+        return instanteAutor;
     }
-
-
 
 
 }
