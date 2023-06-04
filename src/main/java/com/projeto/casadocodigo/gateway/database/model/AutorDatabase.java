@@ -3,7 +3,6 @@ package com.projeto.casadocodigo.gateway.database.model;
 import com.projeto.casadocodigo.domain.autor.Autor;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,7 +18,7 @@ public class AutorDatabase {
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "descricao", nullable = false)
+    @Column(name = "descricao", nullable = false, length = 400)
     private String descricao;
 
     @Column(name = "instanteAutor", nullable = false)

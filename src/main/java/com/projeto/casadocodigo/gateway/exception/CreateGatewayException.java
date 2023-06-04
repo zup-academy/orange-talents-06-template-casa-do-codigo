@@ -4,4 +4,5 @@ public class CreateGatewayException extends Exception{
     public CreateGatewayException(Throwable cause) {
         super(cause);
     }
+
 }

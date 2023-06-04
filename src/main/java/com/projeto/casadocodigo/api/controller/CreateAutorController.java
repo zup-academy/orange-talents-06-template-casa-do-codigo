@@ -1,26 +1,31 @@
 package com.projeto.casadocodigo.api.controller;
 
 import com.projeto.casadocodigo.api.request.autor.AutorRequest;
-import com.projeto.casadocodigo.domain.autor.Autor;
-import com.projeto.casadocodigo.service.implementacao.CreateAutorServiceImp;
+import com.projeto.casadocodigo.gateway.exception.ExistsByEmailGatewayException;
+import com.projeto.casadocodigo.service.CreateAutorService;
+
+import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 public class CreateAutorController {
-    private final CreateAutorServiceImp createAutorServiceImp;
-// Renomear createAutorService para createAutorServiceImp(implementação)
-    public CreateAutorController(CreateAutorServiceImp createAutorServiceImp) {
-        this.createAutorServiceImp = createAutorServiceImp;
+    private final CreateAutorService createAutorService;
+
+    public CreateAutorController(CreateAutorService createAutorService) {
+        this.createAutorService = createAutorService;
     }
 
     @PostMapping(value = "/autor")
     @ResponseStatus(code = HttpStatus.OK)
     @Transactional
-    public void execute(@RequestBody @Valid AutorRequest autorRequest) {
-            createAutorServiceImp.execute(autorRequest.toDomain());
+    public void execute(@RequestBody @Valid AutorRequest autorRequest) throws ExistsEmailServiceException, MethodArgumentNotValidException {
+        // Chama o serviço que cria um autor
+        createAutorService.execute(autorRequest.toDomain());
+
     }
 }

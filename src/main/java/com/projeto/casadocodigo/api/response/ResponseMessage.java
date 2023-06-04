@@ -11,6 +11,7 @@ public class ResponseMessage {
         this.mensagem = mensagem;
     }
 
+
     public int getCodigo() {
         return codigo;
     }
