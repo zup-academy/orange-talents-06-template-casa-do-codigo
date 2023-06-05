@@ -1,7 +1,10 @@
 package com.projeto.casadocodigo.config.handling;
 
 
+import com.projeto.casadocodigo.service.exception.CreateCategoryServiceException;
 import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
+import com.projeto.casadocodigo.service.exception.ServiceException;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -15,8 +18,8 @@ import java.util.List;
 @RestControllerAdvice
 public class ExceptionHandlingController {
     @ResponseStatus(code = HttpStatus.CONFLICT)
-    @ExceptionHandler(ExistsEmailServiceException.class)
-    public GenericErrorResponse handle(ExistsEmailServiceException exception) {
+    @ExceptionHandler(ServiceException.class)
+    public GenericErrorResponse handle(ServiceException exception) {
         int code = HttpStatus.CONFLICT.value();
         String error = HttpStatus.CONFLICT.getReasonPhrase();
         String errorMessage = exception.getMessage();

@@ -5,6 +5,7 @@ import com.projeto.casadocodigo.gateway.CreateAutorGateway;
 import com.projeto.casadocodigo.gateway.exception.CreateGatewayException;
 import com.projeto.casadocodigo.service.CreateAutorService;
 import com.projeto.casadocodigo.service.ExistsByEmailService;
+import com.projeto.casadocodigo.service.exception.CreateAutorServiceException;
 import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 import org.springframework.stereotype.Service;
@@ -20,15 +21,15 @@ public class CreateAutorServiceImp implements CreateAutorService {
         this.existsByEmailService = existsByEmailService;
     }
 
-    public void execute(final Autor autor) throws ExistsEmailServiceException {
+    public void execute(final Autor autor) throws ServiceException {
         try {
-            if (existsByEmailService.execute(autor.getEmail()) == false) {
-                createAutorGateway.execute(autor);
-            } else {
+            if (existsByEmailService.execute(autor.getEmail())) {
                 throw new ExistsEmailServiceException("E-mail já existe na base de dados");
             }
+
+            createAutorGateway.execute(autor);
         } catch (CreateGatewayException e) {
-            throw new ServiceException("Problemas ao criar autor", e);
+            throw new CreateAutorServiceException("Problemas ao criar autor", e);
         }
     }
 
