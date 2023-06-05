@@ -6,6 +6,7 @@ import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,15 +18,27 @@ import java.util.List;
 
 @RestControllerAdvice
 public class ExceptionHandlingController {
-    @ResponseStatus(code = HttpStatus.CONFLICT)
     @ExceptionHandler(ServiceException.class)
-    public GenericErrorResponse handle(ServiceException exception) {
-        int code = HttpStatus.CONFLICT.value();
-        String error = HttpStatus.CONFLICT.getReasonPhrase();
+    public ResponseEntity<GenericErrorResponse> handle(ServiceException exception) {
+        if (exception instanceof CreateCategoryServiceException){
+            int code = HttpStatus.BAD_REQUEST.value();
+            String error = HttpStatus.BAD_REQUEST.getReasonPhrase();
+            String errorMessage = exception.getMessage();
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+            return ResponseEntity.status(code).body(genericErrorResponse);
+        }else if(exception instanceof ExistsEmailServiceException){
+            int code = HttpStatus.CONFLICT.value();
+            String error = HttpStatus.CONFLICT.getReasonPhrase();
+            String errorMessage = exception.getMessage();
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+            return ResponseEntity.status(code).body(genericErrorResponse);
+        }
+        // Caso não seja uma exception filha conhecida
+        int code = HttpStatus.BAD_REQUEST.value();
+        String error = HttpStatus.BAD_REQUEST.getReasonPhrase();
         String errorMessage = exception.getMessage();
-
         GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
-        return genericErrorResponse;
+        return ResponseEntity.status(code).body(genericErrorResponse);
     }
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -38,5 +51,4 @@ public class ExceptionHandlingController {
         GenericErrorResponse genericErrorResponse = new GenericErrorResponse(HttpStatus.BAD_REQUEST.value(), errorMessage, errors.toString());
         return genericErrorResponse;
     }
-
 }
