@@ -11,6 +11,9 @@ public class CategoryDatabase {
     @Column(name = "category_name", unique = true)
     private String name;
 
+    public CategoryDatabase() {
+        // Construtor vazio necessário para o JPA
+    }
     public CategoryDatabase(Long id, String name) {
         this.id = id;
         this.name = name;
