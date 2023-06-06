@@ -9,10 +9,10 @@ import com.projeto.casadocodigo.gateway.exception.CreateCategoryGatewayException
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreateCategoryGatewayPostresql implements CreateCategoryGateway {
+public class CreateCategoryGatewayPostgresql implements CreateCategoryGateway {
     CategoryRepository categoryRepository;
 
-    public CreateCategoryGatewayPostresql(CategoryRepository categoryRepository) {
+    public CreateCategoryGatewayPostgresql(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 

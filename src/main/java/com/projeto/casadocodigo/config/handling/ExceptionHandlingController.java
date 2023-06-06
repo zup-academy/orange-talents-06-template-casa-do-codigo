@@ -4,7 +4,6 @@ package com.projeto.casadocodigo.config.handling;
 import com.projeto.casadocodigo.service.exception.CreateCategoryServiceException;
 import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

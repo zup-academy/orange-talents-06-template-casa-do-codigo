@@ -3,6 +3,8 @@ package com.projeto.casadocodigo.api.controller;
 import com.projeto.casadocodigo.api.request.category.CategoryRequest;
 import com.projeto.casadocodigo.service.CreateCategoryService;
 import com.projeto.casadocodigo.service.exception.CreateCategoryServiceException;
+import com.projeto.casadocodigo.service.exception.ExistsCategoryNameServiceException;
+import com.projeto.casadocodigo.service.exception.ServiceException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +22,7 @@ public class CreateCategoryController {
 
     @PostMapping(value = "/category")
     @ResponseStatus(code = HttpStatus.OK)
-    public void execute(@RequestBody @Valid CategoryRequest categoryRequest) throws CreateCategoryServiceException {
+    public void execute(@RequestBody @Valid CategoryRequest categoryRequest) throws ServiceException {
         createCategoryService.execute(categoryRequest.toDomain());
     }
 }
