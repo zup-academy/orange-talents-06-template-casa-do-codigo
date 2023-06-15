@@ -1,12 +1,12 @@
 package com.projeto.casadocodigo.service;
 
-import com.projeto.casadocodigo.domain.autor.Autor;
+import com.projeto.casadocodigo.domain.Author.Author;
 import com.projeto.casadocodigo.gateway.exception.ExistsByEmailGatewayException;
 import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 
-public interface CreateAutorService {
+public interface CreateAuthorService {
 
-    public void execute(final Autor autor) throws ServiceException;
+    public void execute(final Author Author) throws ServiceException;
 
 }

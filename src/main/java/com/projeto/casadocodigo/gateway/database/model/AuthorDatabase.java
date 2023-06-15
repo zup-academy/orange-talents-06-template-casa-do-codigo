@@ -1,12 +1,12 @@
 package com.projeto.casadocodigo.gateway.database.model;
 
-import com.projeto.casadocodigo.domain.autor.Autor;
+import com.projeto.casadocodigo.domain.Author.Author;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-public class AutorDatabase {
+public class AuthorDatabase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +21,14 @@ public class AutorDatabase {
     @Column(name = "descricao", nullable = false, length = 400)
     private String descricao;
 
-    @Column(name = "instanteAutor", nullable = false)
+    @Column(name = "instanteAuthor", nullable = false)
     @CreationTimestamp
-    private LocalDateTime instanteAutor;
+    private LocalDateTime instanteAuthor;
 
-    public AutorDatabase() {
+    public AuthorDatabase() {
         // Construtor vazio necessário para o JPA
     }
-    public AutorDatabase(Long id, String nome, String email, String descricao) {
+    public AuthorDatabase(Long id, String nome, String email, String descricao) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -36,8 +36,8 @@ public class AutorDatabase {
 
     }
 
-    public static AutorDatabase model(Autor autor) {
-        return new AutorDatabase(autor.getId(), autor.getNome(), autor.getEmail(), autor.getDescricao());
+    public static AuthorDatabase model(Author Author) {
+        return new AuthorDatabase(Author.getId(), Author.getNome(), Author.getEmail(), Author.getDescricao());
     }
 
     public Long getId() {
@@ -56,8 +56,8 @@ public class AutorDatabase {
         return descricao;
     }
 
-    public LocalDateTime getInstanteAutor() {
-        return instanteAutor;
+    public LocalDateTime getInstanteAuthor() {
+        return instanteAuthor;
     }
 
 

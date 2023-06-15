@@ -1,8 +1,8 @@
 package com.projeto.casadocodigo.api.controller;
 
-import com.projeto.casadocodigo.api.request.autor.AutorRequest;
+import com.projeto.casadocodigo.api.request.Author.AuthorRequest;
 import com.projeto.casadocodigo.gateway.exception.ExistsByEmailGatewayException;
-import com.projeto.casadocodigo.service.CreateAutorService;
+import com.projeto.casadocodigo.service.CreateAuthorService;
 
 import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
@@ -14,19 +14,19 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-public class CreateAutorController {
-    private final CreateAutorService createAutorService;
+public class CreateAuthorController {
+    private final CreateAuthorService createAuthorService;
 
-    public CreateAutorController(CreateAutorService createAutorService) {
-        this.createAutorService = createAutorService;
+    public CreateAuthorController(CreateAuthorService createAuthorService) {
+        this.createAuthorService = createAuthorService;
     }
 
-    @PostMapping(value = "/autor")
+    @PostMapping(value = "/author")
     @ResponseStatus(code = HttpStatus.OK)
     @Transactional
-    public void execute(@RequestBody @Valid AutorRequest autorRequest) throws ServiceException {
-        // Chama o serviço que cria um autor
-        createAutorService.execute(autorRequest.toDomain());
+    public void execute(@RequestBody @Valid AuthorRequest AuthorRequest) throws ServiceException {
+        // Chama o serviço que cria um Author
+        createAuthorService.execute(AuthorRequest.toDomain());
 
     }
 }

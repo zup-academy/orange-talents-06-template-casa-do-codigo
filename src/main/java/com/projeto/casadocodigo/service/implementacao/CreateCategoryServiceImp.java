@@ -23,9 +23,9 @@ public class CreateCategoryServiceImp implements CreateCategoryService {
 
     public void execute(final Category category) throws ServiceException {
 
-            if (existsCategoryNameService.execute(category.getName())){
-                throw new ExistsCategoryNameServiceException("Nome da categoria já existe");
-            }
+//            if (existsCategoryNameService.execute(category.getName())){
+//                throw new ExistsCategoryNameServiceException("Nome da categoria já existe");
+//            }
         try {
             createCategoryGateway.execute(category);
         } catch (CreateCategoryGatewayException e) {
