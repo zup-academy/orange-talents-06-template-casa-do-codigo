@@ -1,9 +1,11 @@
 package com.projeto.casadocodigo.gateway.database.model;
 
-import com.projeto.casadocodigo.domain.Author.Author;
+import com.projeto.casadocodigo.domain.author.Author;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class AuthorDatabase {
@@ -25,19 +27,23 @@ public class AuthorDatabase {
     @CreationTimestamp
     private LocalDateTime instanteAuthor;
 
-    public AuthorDatabase() {
-        // Construtor vazio necessário para o JPA
+    @OneToMany(mappedBy = "author")
+    private List<BookDatabase> books;
+
+    public AuthorDatabase(){
+
     }
-    public AuthorDatabase(Long id, String nome, String email, String descricao) {
+    public AuthorDatabase(Long id) {
         this.id = id;
         this.nome = nome;
         this.email = email;
         this.descricao = descricao;
-
     }
 
-    public static AuthorDatabase model(Author Author) {
-        return new AuthorDatabase(Author.getId(), Author.getNome(), Author.getEmail(), Author.getDescricao());
+    public AuthorDatabase(Author author) {
+        this.nome = author.getNome();
+        this.email = author.getEmail();
+        this.descricao = author.getDescricao();
     }
 
     public Long getId() {
@@ -60,6 +66,9 @@ public class AuthorDatabase {
         return instanteAuthor;
     }
 
+    public List<BookDatabase> getBooks() {
+        return books;
+    }
 
 }
 

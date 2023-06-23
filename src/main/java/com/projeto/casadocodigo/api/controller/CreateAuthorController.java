@@ -1,15 +1,11 @@
 package com.projeto.casadocodigo.api.controller;
 
 import com.projeto.casadocodigo.api.request.Author.AuthorRequest;
-import com.projeto.casadocodigo.gateway.exception.ExistsByEmailGatewayException;
 import com.projeto.casadocodigo.service.CreateAuthorService;
-
-import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 

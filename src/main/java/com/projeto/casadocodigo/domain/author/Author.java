@@ -1,13 +1,9 @@
-package com.projeto.casadocodigo.domain.Author;
+package com.projeto.casadocodigo.domain.author;
 
+import com.projeto.casadocodigo.domain.book.Book;
 import com.projeto.casadocodigo.gateway.database.model.AuthorDatabase;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import org.hibernate.annotations.CreationTimestamp;
-import java.time.LocalDateTime;
-
 
 public class Author {
 
@@ -19,9 +15,12 @@ public class Author {
 
     private String descricao;
 
+    public Author(){
 
-    public static Author fromDatabase(AuthorDatabase AuthorDatabase) {
-        return new Author(AuthorDatabase.getId(), AuthorDatabase.getNome(), AuthorDatabase.getEmail(), AuthorDatabase.getEmail());
+    }
+
+    public static Author fromDatabase(AuthorDatabase authorDatabase) {
+        return new Author(authorDatabase.getId(), authorDatabase.getNome(), authorDatabase.getEmail(), authorDatabase.getDescricao());
     }
 
     public Author(Long id, String nome, String email, String descricao) {
@@ -29,13 +28,13 @@ public class Author {
         this.nome = nome;
         this.email = email;
         this.descricao = descricao;
+
     }
 
     public Author(String nome, String email, String descricao) {
         this.nome = nome;
         this.email = email;
         this.descricao = descricao;
-
     }
 
     public Long getId() {
@@ -53,9 +52,6 @@ public class Author {
     public String getDescricao() {
         return descricao;
     }
-
-
-
 
 
 }

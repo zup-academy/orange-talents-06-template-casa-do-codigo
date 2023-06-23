@@ -1,6 +1,7 @@
 package com.projeto.casadocodigo.api.request.Author;
 
-import com.projeto.casadocodigo.domain.Author.Author;
+import com.projeto.casadocodigo.domain.author.Author;
+import com.projeto.casadocodigo.domain.book.Book;
 import com.projeto.casadocodigo.gateway.database.model.AuthorDatabase;
 import com.projeto.casadocodigo.service.genericValidator.UniqueValue;
 import jakarta.validation.constraints.Email;
@@ -24,7 +25,7 @@ public class AuthorRequest {
     }
 
     public Author toDomain(Long id) {
-        return new Author(id, nome, email, descricao);
+        return new Author(nome, email, descricao);
     }
 
 

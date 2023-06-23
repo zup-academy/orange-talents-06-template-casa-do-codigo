@@ -1,6 +1,6 @@
 package com.projeto.casadocodigo.gateway.database;
 
-import com.projeto.casadocodigo.domain.Author.Author;
+import com.projeto.casadocodigo.domain.author.Author;
 import com.projeto.casadocodigo.gateway.CreateAuthorGateway;
 import com.projeto.casadocodigo.gateway.database.model.AuthorDatabase;
 import com.projeto.casadocodigo.gateway.database.repository.AuthorRepository;
@@ -19,17 +19,9 @@ public class CreateAuthorGatewayPostgresql implements CreateAuthorGateway {
         this.findByEmailGatewayPostgresql = findByEmailGatewayPostgresql;
     }
 
-    @Override
-    public void execute(Author Author) throws CreateGatewayException{
+    public void execute(Author author) throws CreateGatewayException{
         try {
-
-                AuthorDatabase entity = AuthorDatabase.model(Author);
-
-                    AuthorDatabase savedEntity = AuthorRepository.save(entity);
-                    Author.fromDatabase(savedEntity);
-
-
-
+                    AuthorRepository.save(new AuthorDatabase(author));
         } catch (Exception e) {
             throw new CreateGatewayException(e);
         }

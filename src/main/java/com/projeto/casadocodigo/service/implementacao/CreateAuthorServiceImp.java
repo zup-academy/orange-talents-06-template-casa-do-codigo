@@ -1,6 +1,6 @@
 package com.projeto.casadocodigo.service.implementacao;
 
-import com.projeto.casadocodigo.domain.Author.Author;
+import com.projeto.casadocodigo.domain.author.Author;
 import com.projeto.casadocodigo.gateway.CreateAuthorGateway;
 import com.projeto.casadocodigo.gateway.exception.CreateGatewayException;
 import com.projeto.casadocodigo.service.CreateAuthorService;
@@ -21,13 +21,13 @@ public class CreateAuthorServiceImp implements CreateAuthorService {
         this.existsByEmailService = existsByEmailService;
     }
 
-    public void execute(final Author Author) throws ServiceException {
+    public void execute(final Author author) throws ServiceException {
         try {
 //            if (existsByEmailService.execute(Author.getEmail())) {
 //                throw new ExistsEmailServiceException("E-mail já existe na base de dados");
 //            }
 
-            createAuthorGateway.execute(Author);
+            createAuthorGateway.execute(author);
         } catch (CreateGatewayException e) {
             throw new CreateAuthorServiceException("Problemas ao criar Author", e);
         }

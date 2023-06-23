@@ -8,6 +8,7 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
+      - spring.jpa.open-in-view=false
     networks:
       - default
 networks:
