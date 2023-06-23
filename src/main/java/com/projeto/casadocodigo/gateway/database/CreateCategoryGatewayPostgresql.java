@@ -19,7 +19,7 @@ public class CreateCategoryGatewayPostgresql implements CreateCategoryGateway {
     @Override
     public void execute(Category category) throws CreateCategoryGatewayException {
         try {
-            CategoryDatabase categoryDatabase = CategoryDatabase.model(category);
+            CategoryDatabase categoryDatabase = new CategoryDatabase(category);
             CategoryDatabase categorySaved = categoryRepository.save(categoryDatabase);
             Category.fromDataBase(categorySaved);
         }catch(Exception e){

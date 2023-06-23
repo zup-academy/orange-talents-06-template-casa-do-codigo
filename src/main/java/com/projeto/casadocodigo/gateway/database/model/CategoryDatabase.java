@@ -11,16 +11,20 @@ public class CategoryDatabase {
     @Column(name = "category_name", unique = true)
     private String name;
 
-    public CategoryDatabase() {
-        // Construtor vazio necessário para o JPA
+    public CategoryDatabase(){
+
     }
+    public CategoryDatabase(Long category) {
+        this.id = category;
+    }
+
     public CategoryDatabase(Long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public static CategoryDatabase model(Category category) {
-        return new CategoryDatabase(category.getId(), category.getName());
+    public CategoryDatabase(Category category) {
+        this.name = category.getName();
     }
 
     public Long getId() {
@@ -30,4 +34,6 @@ public class CategoryDatabase {
     public String getName() {
         return name;
     }
+
+
 }
