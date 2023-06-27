@@ -1,6 +1,7 @@
 package com.projeto.casadocodigo.domain.book;
 
 
+import com.projeto.casadocodigo.api.response.book.BookResponse;
 import com.projeto.casadocodigo.domain.author.Author;
 import com.projeto.casadocodigo.domain.category.Category;
 import com.projeto.casadocodigo.gateway.database.model.AuthorDatabase;
@@ -43,6 +44,14 @@ public class Book {
         this.releaseDate = releaseDate;
         this.category = category;
         this.author = author;
+    }
+
+    public Book(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+    public BookResponse toBookResponse(){
+        return new BookResponse(id, title);
     }
 
     public Long getId() {
