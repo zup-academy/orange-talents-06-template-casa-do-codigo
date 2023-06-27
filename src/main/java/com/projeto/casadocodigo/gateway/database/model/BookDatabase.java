@@ -1,6 +1,7 @@
 package com.projeto.casadocodigo.gateway.database.model;
 
 
+import com.projeto.casadocodigo.api.response.book.BookResponse;
 import com.projeto.casadocodigo.domain.book.Book;
 import jakarta.persistence.*;
 
@@ -66,6 +67,9 @@ public class BookDatabase {
         this.category = new CategoryDatabase(book.getCategory());
     }
 
+    public BookResponse toBook(){
+        return new BookResponse(id,title);
+    }
 
     public Long getId() {
         return id;
