@@ -24,10 +24,11 @@ public class ListAllBooksGatewayPostgresql implements ListAllBooksGateway {
         List<BookDatabase> listDatabase = bookRepository.findAll();
         List<BookResponse> listResponse = new ArrayList<>();
 
-        for (BookDatabase book : listDatabase){
-            BookResponse bookResponse = book.toBook();
+        listDatabase.forEach(bookDatabase -> {
+            Book book = bookDatabase.toBook();
+            BookResponse bookResponse = book.toBookResponse();
             listResponse.add(bookResponse);
-        }
+        });
         return listResponse;
     }
 }
