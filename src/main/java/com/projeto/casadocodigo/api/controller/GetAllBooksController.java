@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class ListAllBooksController {
+public class GetAllBooksController {
 
     private final ListAllBooksService listAllBooksService;
 
-    public ListAllBooksController(ListAllBooksService listAllBooksService) {
+    public GetAllBooksController(ListAllBooksService listAllBooksService) {
         this.listAllBooksService = listAllBooksService;
     }
 
