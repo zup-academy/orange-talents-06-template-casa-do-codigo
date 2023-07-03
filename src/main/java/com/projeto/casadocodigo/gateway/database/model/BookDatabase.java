@@ -1,6 +1,7 @@
 package com.projeto.casadocodigo.gateway.database.model;
 
 
+import com.projeto.casadocodigo.api.response.book.GetAllBooksDetailResponse;
 import com.projeto.casadocodigo.domain.book.Book;
 import jakarta.persistence.*;
 
@@ -35,12 +36,11 @@ public class BookDatabase {
     @JoinColumn(name = "author_id")
     private AuthorDatabase author;
 
-    public BookDatabase() {
+    public BookDatabase(){
 
     }
 
-    public BookDatabase(Long id, String title, String description, String summary, double price, int numberOfPages,
-                        String isbn, LocalDate releaseDate, AuthorDatabase author, CategoryDatabase category) {
+    public BookDatabase(Book book) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -49,23 +49,14 @@ public class BookDatabase {
         this.numberOfPages = numberOfPages;
         this.isbn = isbn;
         this.releaseDate = releaseDate;
-        this.author = author;
         this.category = category;
+        this.author = author;
     }
 
-
-    public BookDatabase(Book book) {
-        this.title = book.getTitle();
-        this.description = book.getDescription();
-        this.summary = book.getSummary();
-        this.price = book.getPrice();
-        this.numberOfPages = book.getNumberOfPages();
-        this.isbn = book.getIsbn();
-        this.releaseDate = book.getReleaseDate();
-        this.author = new AuthorDatabase(book.getAuthor());
-        this.category = new CategoryDatabase(book.getCategory());
+    public Book toBookResponse(){
+        return new Book(id, title, description, summary, price, numberOfPages,
+        isbn, releaseDate, category, author);
     }
-
     public Book toBook(){
         return new Book(id,title);
     }
