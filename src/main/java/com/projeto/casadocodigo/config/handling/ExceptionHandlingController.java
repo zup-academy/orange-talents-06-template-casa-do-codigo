@@ -1,6 +1,9 @@
 package com.projeto.casadocodigo.config.handling;
 
 
+import com.projeto.casadocodigo.gateway.exception.BookNotFoundGatewayException;
+import com.projeto.casadocodigo.gateway.exception.GatewayException;
+import com.projeto.casadocodigo.service.exception.BookNotFoundServiceException;
 import com.projeto.casadocodigo.service.exception.CreateCategoryServiceException;
 import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
@@ -31,6 +34,12 @@ public class ExceptionHandlingController {
             String errorMessage = exception.getMessage();
             GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
             return ResponseEntity.status(code).body(genericErrorResponse);
+        }else if(exception instanceof BookNotFoundServiceException){
+            int code = HttpStatus.NOT_FOUND.value();
+            String errorMessage = exception.getMessage();
+            String error = HttpStatus.NOT_FOUND.getReasonPhrase();
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+            return ResponseEntity.status(code).body(genericErrorResponse);
         }
         // Caso não seja uma exception filha conhecida
         int code = HttpStatus.BAD_REQUEST.value();
@@ -39,6 +48,22 @@ public class ExceptionHandlingController {
         GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
         return ResponseEntity.status(code).body(genericErrorResponse);
     }
+    @ExceptionHandler(GatewayException.class)
+    public ResponseEntity<GenericErrorResponse> handle(GatewayException gatewayException) {
+        if(gatewayException instanceof BookNotFoundGatewayException){
+            int code = HttpStatus.NOT_FOUND.value();
+            String errorMessage = gatewayException.getMessage();
+            String error = HttpStatus.NOT_FOUND.getReasonPhrase();
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+            return ResponseEntity.status(code).body(genericErrorResponse);
+        }
+        int code = HttpStatus.BAD_REQUEST.value();
+        String error = HttpStatus.BAD_REQUEST.getReasonPhrase();
+        String errorMessage = gatewayException.getMessage();
+        GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+        return ResponseEntity.status(code).body(genericErrorResponse);
+    }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public GenericErrorResponse handleValidationException(MethodArgumentNotValidException exception) {

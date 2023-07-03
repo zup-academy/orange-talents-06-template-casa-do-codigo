@@ -37,6 +37,15 @@ public class Author {
         this.descricao = descricao;
     }
 
+    public Author(String nome, String descricao) {
+        this.nome = nome;
+        this.descricao = descricao;
+    }
+
+    public Author(String name){
+         this.nome = name;
+    }
+
     public Long getId() {
         return id;
     }

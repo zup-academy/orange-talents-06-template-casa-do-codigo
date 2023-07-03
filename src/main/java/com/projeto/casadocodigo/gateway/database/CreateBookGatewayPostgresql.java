@@ -23,7 +23,6 @@ public class CreateBookGatewayPostgresql implements CreateBookGateway {
         }catch(Exception e){
             e.printStackTrace();
             throw  new CreateBookGatewayException(e);
-
         }
     }
 }
