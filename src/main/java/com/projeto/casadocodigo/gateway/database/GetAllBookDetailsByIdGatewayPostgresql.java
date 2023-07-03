@@ -2,7 +2,7 @@ package com.projeto.casadocodigo.gateway.database;
 
 import com.projeto.casadocodigo.api.response.book.GetAllBooksDetailResponse;
 import com.projeto.casadocodigo.domain.book.Book;
-import com.projeto.casadocodigo.gateway.GetAllBooksDetailGateway;
+import com.projeto.casadocodigo.gateway.GetAllBookDetailsByIdGateway;
 import com.projeto.casadocodigo.gateway.database.model.BookDatabase;
 import com.projeto.casadocodigo.gateway.database.repository.BookRepository;
 import com.projeto.casadocodigo.gateway.exception.BookNotFoundGatewayException;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class GetAllBooksDetailGatewayPostgresql implements GetAllBooksDetailGateway {
+public class GetAllBookDetailsByIdGatewayPostgresql implements GetAllBookDetailsByIdGateway {
 
     BookRepository bookRepository;
 
-    public GetAllBooksDetailGatewayPostgresql(BookRepository bookRepository) {
+    public GetAllBookDetailsByIdGatewayPostgresql(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
