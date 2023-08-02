@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateAuthorServiceImp implements CreateAuthorService {
     private final CreateAuthorGateway createAuthorGateway;
-    private final ExistsByEmailService existsByEmailService;
+//    private final ExistsByEmailService existsByEmailService;
 
     // Injeção interface por meio de construtor
-    public CreateAuthorServiceImp(CreateAuthorGateway createAuthorGateway, ExistsByEmailService existsByEmailService) {
+    public CreateAuthorServiceImp(CreateAuthorGateway createAuthorGateway) {
         this.createAuthorGateway = createAuthorGateway;
-        this.existsByEmailService = existsByEmailService;
+//        this.existsByEmailService = existsByEmailService;
     }
 
     public void execute(final Author author) throws ServiceException {
