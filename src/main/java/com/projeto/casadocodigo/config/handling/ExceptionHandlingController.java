@@ -3,10 +3,7 @@ package com.projeto.casadocodigo.config.handling;
 
 import com.projeto.casadocodigo.gateway.exception.BookNotFoundGatewayException;
 import com.projeto.casadocodigo.gateway.exception.GatewayException;
-import com.projeto.casadocodigo.service.exception.BookNotFoundServiceException;
-import com.projeto.casadocodigo.service.exception.CreateCategoryServiceException;
-import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
-import com.projeto.casadocodigo.service.exception.ServiceException;
+import com.projeto.casadocodigo.service.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -28,7 +25,7 @@ public class ExceptionHandlingController {
             String errorMessage = exception.getMessage();
             GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
             return ResponseEntity.status(code).body(genericErrorResponse);
-        }else if(exception instanceof ExistsEmailServiceException){
+        }else if(exception instanceof ExistsByEmailServiceException){
             int code = HttpStatus.CONFLICT.value();
             String error = HttpStatus.CONFLICT.getReasonPhrase();
             String errorMessage = exception.getMessage();
@@ -38,6 +35,24 @@ public class ExceptionHandlingController {
             int code = HttpStatus.NOT_FOUND.value();
             String errorMessage = exception.getMessage();
             String error = HttpStatus.NOT_FOUND.getReasonPhrase();
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+            return ResponseEntity.status(code).body(genericErrorResponse);
+        }else if(exception instanceof ExistsByTitleBookServiceException){
+            int code = HttpStatus.CONFLICT.value();
+            String error = HttpStatus.CONFLICT.getReasonPhrase();
+            String errorMessage = exception.getMessage();
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+            return ResponseEntity.status(code).body(genericErrorResponse);
+        }else if(exception instanceof ExistsByIsbnBookServiceException){
+            int code = HttpStatus.CONFLICT.value();
+            String error = HttpStatus.CONFLICT.getReasonPhrase();
+            String errorMessage = exception.getMessage();
+            GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
+            return ResponseEntity.status(code).body(genericErrorResponse);
+        }else if(exception instanceof ExistsByCategoryNameServiceException){
+            int code = HttpStatus.CONFLICT.value();
+            String error = HttpStatus.CONFLICT.getReasonPhrase();
+            String errorMessage = exception.getMessage();
             GenericErrorResponse genericErrorResponse = new GenericErrorResponse(code, error, errorMessage);
             return ResponseEntity.status(code).body(genericErrorResponse);
         }

@@ -7,17 +7,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ExistsByEmailGatewayPostgresql implements ExistsByEmailGateway {
-    AuthorRepository AuthorRepository;
+    AuthorRepository authorRepository;
 
     public ExistsByEmailGatewayPostgresql(AuthorRepository AuthorRepository) {
-        this.AuthorRepository = AuthorRepository;
+        this.authorRepository = AuthorRepository;
     }
 
     @Override
     public boolean execute(String email) throws ExistsByEmailGatewayException {
         try {
-            return AuthorRepository.existsByEmail(email);
-        }catch (Exception e){
+            return authorRepository.existsByEmail(email);
+        } catch (Exception e) {
             throw new ExistsByEmailGatewayException(e);
         }
     }

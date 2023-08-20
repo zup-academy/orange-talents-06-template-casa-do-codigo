@@ -11,17 +11,15 @@ import org.springframework.stereotype.Component;
 public class CreateAuthorGatewayPostgresql implements CreateAuthorGateway {
 
     AuthorRepository AuthorRepository;
-    ExistsByEmailGatewayPostgresql findByEmailGatewayPostgresql;
 
-
-    public CreateAuthorGatewayPostgresql(AuthorRepository AuthorRepository, ExistsByEmailGatewayPostgresql findByEmailGatewayPostgresql) {
+    public CreateAuthorGatewayPostgresql(AuthorRepository AuthorRepository) {
         this.AuthorRepository = AuthorRepository;
-        this.findByEmailGatewayPostgresql = findByEmailGatewayPostgresql;
+
     }
 
-    public void execute(Author author) throws CreateGatewayException{
+    public void execute(Author author) throws CreateGatewayException {
         try {
-                    AuthorRepository.save(new AuthorDatabase(author));
+            AuthorRepository.save(new AuthorDatabase(author));
         } catch (Exception e) {
             throw new CreateGatewayException(e);
         }

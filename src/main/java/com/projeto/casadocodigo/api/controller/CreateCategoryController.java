@@ -2,8 +2,6 @@ package com.projeto.casadocodigo.api.controller;
 
 import com.projeto.casadocodigo.api.request.category.CategoryRequest;
 import com.projeto.casadocodigo.service.CreateCategoryService;
-import com.projeto.casadocodigo.service.exception.CreateCategoryServiceException;
-import com.projeto.casadocodigo.service.exception.ExistsCategoryNameServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

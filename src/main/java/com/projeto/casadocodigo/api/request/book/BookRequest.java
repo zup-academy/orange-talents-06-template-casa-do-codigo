@@ -1,20 +1,16 @@
 package com.projeto.casadocodigo.api.request.book;
 
-import com.projeto.casadocodigo.domain.author.Author;
 import com.projeto.casadocodigo.domain.book.Book;
-import com.projeto.casadocodigo.domain.category.Category;
-import com.projeto.casadocodigo.gateway.database.model.BookDatabase;
-import com.projeto.casadocodigo.service.genericValidator.UniqueValue;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
+
 import java.time.LocalDate;
 
 public class BookRequest {
     @NotBlank
-    @UniqueValue(fieldName = "title", message = "Já existe um livro com esse nome", domainClass = BookDatabase.class)
     private String title;
     @NotBlank
     @Length(max = 500, message = "Tamanho máximo de palavras atingido")
@@ -28,7 +24,6 @@ public class BookRequest {
     private Integer numberOfPages;
 
     @NotBlank
-    @UniqueValue(fieldName = "isbn", message = "Esse identificador isbn já está cadastrado", domainClass = BookDatabase.class)
     private String isbn;
     @Future(message = "A data de lançamento deve ser futura")
     private LocalDate releaseDate;

@@ -6,31 +6,33 @@ import com.projeto.casadocodigo.gateway.exception.CreateGatewayException;
 import com.projeto.casadocodigo.service.CreateAuthorService;
 import com.projeto.casadocodigo.service.ExistsByEmailService;
 import com.projeto.casadocodigo.service.exception.CreateAuthorServiceException;
-import com.projeto.casadocodigo.service.exception.ExistsEmailServiceException;
+import com.projeto.casadocodigo.service.exception.ExistsByEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreateAuthorServiceImp implements CreateAuthorService {
     private final CreateAuthorGateway createAuthorGateway;
-//    private final ExistsByEmailService existsByEmailService;
+    private final ExistsByEmailService existsByEmailService;
 
-    // Injeção interface por meio de construtor
-    public CreateAuthorServiceImp(CreateAuthorGateway createAuthorGateway) {
+    public CreateAuthorServiceImp(CreateAuthorGateway createAuthorGateway, ExistsByEmailService existsByEmailService) {
         this.createAuthorGateway = createAuthorGateway;
-//        this.existsByEmailService = existsByEmailService;
+        this.existsByEmailService = existsByEmailService;
     }
 
     public void execute(final Author author) throws ServiceException {
         try {
-//            if (existsByEmailService.execute(Author.getEmail())) {
-//                throw new ExistsEmailServiceException("E-mail já existe na base de dados");
-//            }
-
+            checkIfEmailExists(author.getEmail());
             createAuthorGateway.execute(author);
         } catch (CreateGatewayException e) {
             throw new CreateAuthorServiceException("Problemas ao criar Author", e);
         }
+    }
+
+    private void checkIfEmailExists(String email) throws ServiceException{
+            if (existsByEmailService.execute(email)) {
+                throw new CreateAuthorServiceException("O e-mail " + email + " já foi cadastrado por outro autor");
+            }
     }
 
 }

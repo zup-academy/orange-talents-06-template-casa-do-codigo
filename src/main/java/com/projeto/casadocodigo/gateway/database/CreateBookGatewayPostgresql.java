@@ -15,14 +15,13 @@ public class CreateBookGatewayPostgresql implements CreateBookGateway {
         this.bookRepository = bookRepository;
     }
 
-
     public void execute(Book book) throws CreateBookGatewayException {
         try {
             BookDatabase entity = new BookDatabase(book);
             BookDatabase bookSaved = bookRepository.save(entity);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            throw  new CreateBookGatewayException(e);
+            throw new CreateBookGatewayException(e);
         }
     }
 }

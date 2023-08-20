@@ -4,32 +4,35 @@ import com.projeto.casadocodigo.domain.category.Category;
 import com.projeto.casadocodigo.gateway.CreateCategoryGateway;
 import com.projeto.casadocodigo.gateway.exception.CreateCategoryGatewayException;
 import com.projeto.casadocodigo.service.CreateCategoryService;
-import com.projeto.casadocodigo.service.ExistsCategoryNameService;
+import com.projeto.casadocodigo.service.ExistsByCategoryNameService;
 import com.projeto.casadocodigo.service.exception.CreateCategoryServiceException;
-import com.projeto.casadocodigo.service.exception.ExistsCategoryNameServiceException;
+import com.projeto.casadocodigo.service.exception.ExistsByCategoryNameServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CreateCategoryServiceImp implements CreateCategoryService {
     private final CreateCategoryGateway createCategoryGateway;
-    private final ExistsCategoryNameService existsCategoryNameService;
+    private final ExistsByCategoryNameService existsByCategoryNameService;
 
-    public CreateCategoryServiceImp(CreateCategoryGateway createCategoryGateway, ExistsCategoryNameService existsCategoryNameService) {
+    public CreateCategoryServiceImp(CreateCategoryGateway createCategoryGateway, ExistsByCategoryNameService existsByCategoryNameService) {
         this.createCategoryGateway = createCategoryGateway;
-        this.existsCategoryNameService = existsCategoryNameService;
+        this.existsByCategoryNameService = existsByCategoryNameService;
     }
 
-
     public void execute(final Category category) throws ServiceException {
+        checkIfCategoryNameExists(category.getName());
 
-//            if (existsCategoryNameService.execute(category.getName())){
-//                throw new ExistsCategoryNameServiceException("Nome da categoria já existe");
-//            }
         try {
             createCategoryGateway.execute(category);
         } catch (CreateCategoryGatewayException e) {
             throw new CreateCategoryServiceException("Problemas ao criar uma categoria");
+        }
+    }
+
+    private void checkIfCategoryNameExists(final String name) throws ExistsByCategoryNameServiceException {
+        if (existsByCategoryNameService.execute(name)) {
+            throw new ExistsByCategoryNameServiceException("Já existe uma categoria com o nome " + name+ ", tente outro");
         }
     }
 }

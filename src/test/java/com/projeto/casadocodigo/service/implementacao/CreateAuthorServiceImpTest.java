@@ -4,16 +4,17 @@ import com.projeto.casadocodigo.domain.author.Author;
 import com.projeto.casadocodigo.domain.author.AuthorBuilder;
 import com.projeto.casadocodigo.gateway.CreateAuthorGateway;
 import com.projeto.casadocodigo.gateway.exception.CreateGatewayException;
+import com.projeto.casadocodigo.service.ExistsByEmailService;
 import com.projeto.casadocodigo.service.exception.CreateAuthorServiceException;
+import com.projeto.casadocodigo.service.exception.ExistsByEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -23,95 +24,148 @@ public class CreateAuthorServiceImpTest {
 
     @Mock
     private CreateAuthorGateway createAuthorGateway;
+    @Mock
+    private ExistsByEmailService existsByEmailService;
     @InjectMocks
     private CreateAuthorServiceImp createAuthorServiceImp;
 
     @Test
+    @DisplayName("Deve criar um autor com dados válidos")
+    public void createValidAuthor() throws CreateGatewayException, ServiceException {
+        Author validAuthor = AuthorBuilder.anAuthor().build();
+
+        when(existsByEmailService.execute(validAuthor.getEmail())).thenReturn(false);
+
+        createAuthorServiceImp.execute(validAuthor);
+
+        verify(createAuthorGateway, times(1)).execute(validAuthor);
+    }
+
+    @Test
     @DisplayName("Deve verificar se recebeu corretamente um author válido")
-    public void verificaSeServicoRecebeuCorretamenteUmAuthor() throws CreateGatewayException {
+    public void verificaSeServicoRecebeuCorretamenteUmAuthor() throws CreateGatewayException, ServiceException {
         Author author = AuthorBuilder.anAuthor().build();
 
+        when(existsByEmailService.execute(author.getEmail())).thenReturn(false);
         doNothing().when(createAuthorGateway).execute(author);
         assertDoesNotThrow(() -> createAuthorServiceImp.execute(author));
 
+        verify(existsByEmailService, times(1)).execute(author.getEmail());
         verify(createAuthorGateway, times(1)).execute(author);
         verifyNoMoreInteractions(createAuthorGateway);
     }
 
     @Test
-    @DisplayName("Deve rejeitar usuario com nome vazio ou nulo")
-    public void rejectInvalidUserByNome() throws CreateGatewayException {
-        // Crie o Author inválido fora do CreateAuthorGateway, diretamente no teste
-        Author authorWithEmptyName = AuthorBuilder.anAuthor().withName("").build();
-        Author authorWithNullName = AuthorBuilder.anAuthor().withName(null).build();
+    @DisplayName("Deve lançar a excessão correta caso e-mail já exista")
+    public void lancaExcessaoExistEmailServiceExceptionCasoEmailJaExista() throws ServiceException, CreateGatewayException {
+        Author author = AuthorBuilder.anAuthor().build();
+        when(existsByEmailService.execute(author.getEmail())).thenReturn(true);
+        CreateAuthorServiceException ex = assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(author));
 
-        // Simule o comportamento do CreateAuthorGateway no serviço
+        assertTrue(ex.getMessage().contains("já foi cadastrado por outro autor"));
+        verifyNoInteractions(createAuthorGateway);
+        verify(createAuthorGateway, never()).execute(author);
+    }
+
+    @Test
+    @DisplayName("Deve rejeitar usuario com nome vazio")
+    public void rejectInvalidUserByEmptyName() throws CreateGatewayException, ServiceException {
+
+        Author authorWithEmptyName = AuthorBuilder.anAuthor().withName("").build();
+        Author author = AuthorBuilder.anAuthor().build();
+
+        when(existsByEmailService.execute(author.getEmail())).thenReturn(false);
+
         doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithEmptyName);
+
+        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithEmptyName), "Must throw CreateAuthorServiceException for empty name");
+
+        verify(createAuthorGateway, times(1)).execute(authorWithEmptyName);
+    }
+
+    @Test
+    @DisplayName("Deve rejeitar usuário com nome nulo")
+    public void rejectInvalidUserByNullName() throws ServiceException, CreateGatewayException {
+        Author authorWithNullName = AuthorBuilder.anAuthor().withName(null).build();
+        Author author = AuthorBuilder.anAuthor().build();
+
+        when(existsByEmailService.execute(author.getEmail())).thenReturn(false);
+
         doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithNullName);
 
-        // Chame o serviço que deve usar o CreateAuthorGateway internamente
-        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithEmptyName), "Must throw CreateAuthorServiceException for empty name");
-        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithNullName), "Must throw CreateAuthorServiceException for null name");
+        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithNullName));
 
-
-        // Verifique se o CreateAuthorGateway foi chamado corretamente
-        verify(createAuthorGateway, times(1)).execute(authorWithEmptyName);
         verify(createAuthorGateway, times(1)).execute(authorWithNullName);
     }
 
     @Test
-    @DisplayName("Deve rejeitar usuario com email vazio ou nulo")
-    public void rejectInvalidUserByEmail() throws CreateGatewayException {
+    @DisplayName("Deve rejeitar usuario com email vazio")
+    public void rejectInvalidUserByEmptyEmail() throws CreateGatewayException, ServiceException {
         Author authorWithEmptyEmail = AuthorBuilder.anAuthor().withEmail("").build();
-        Author authorWithNullEmail = AuthorBuilder.anAuthor().withEmail(null).build();
+
+        when(existsByEmailService.execute(authorWithEmptyEmail.getEmail())).thenReturn(false);
 
         doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithEmptyEmail);
-        doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithNullEmail);
+
 
         assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithEmptyEmail), "Must throw CreateAuthorServiceException for empty email");
-        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithNullEmail), "Must throw CreateAuthorServiceException for null email");
 
         verify(createAuthorGateway, times(1)).execute(authorWithEmptyEmail);
+    }
+    @Test
+    @DisplayName("Deve rejeitar usuario com email nulo")
+    public void rejectInvalidUserByNullEmail() throws CreateGatewayException, ServiceException {
+        Author authorWithNullEmail = AuthorBuilder.anAuthor().withEmail(null).build();
+
+        when(existsByEmailService.execute(authorWithNullEmail.getEmail())).thenReturn(false);
+
+        doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithNullEmail);
+
+        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithNullEmail));
+
         verify(createAuthorGateway, times(1)).execute(authorWithNullEmail);
     }
 
-
     @Test
-    @DisplayName("Deve rejeitar usuario com descricao vazio ou nulo")
-    public void rejectInvalidUserByDescription() throws CreateGatewayException {
+    @DisplayName("Deve rejeitar usuario com descricao vazio")
+    public void rejectInvalidUserByEmptyDescription() throws CreateGatewayException, ServiceException {
         Author authorWithEmptyDescription = AuthorBuilder.anAuthor().withDescription("").build();
-        Author authorWithNullDescription = AuthorBuilder.anAuthor().withDescription(null).build();
+        Author author = AuthorBuilder.anAuthor().build();
+
+        when(existsByEmailService.execute(author.getEmail())).thenReturn(false);
 
         doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithEmptyDescription);
-        doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithNullDescription);
 
-        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithEmptyDescription), "Must throw CreateAuthorServiceException for empty description");
-        assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithNullDescription), "Must throw CreateAuthorServiceException for null description");
+        CreateAuthorServiceException exceptionWithEmptyDescription = assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithEmptyDescription), "Must throw CreateAuthorServiceException for empty description");
+        assertEquals("Problemas ao criar Author", exceptionWithEmptyDescription.getMessage());
 
         verify(createAuthorGateway, times(1)).execute(authorWithEmptyDescription);
-        verify(createAuthorGateway, times(1)).execute(authorWithNullDescription);
     }
-
     @Test
-    @DisplayName("Verifica se injeção de dependência recebe obejeto correto")
-    public void verifyDependecyInjection() throws CreateGatewayException {
-        CreateAuthorServiceImp createAuthorServiceImp = new CreateAuthorServiceImp(createAuthorGateway);
-        assertNotNull(createAuthorServiceImp);
+    @DisplayName("Deve rejeitar usuario com descricao nulo")
+    public void rejectInvalidUserByEmptyNullDescription() throws CreateGatewayException, ServiceException {
+        Author authorWithNullDescription = AuthorBuilder.anAuthor().withDescription(null).build();
+        Author author = AuthorBuilder.anAuthor().build();
+
+        when(existsByEmailService.execute(author.getEmail())).thenReturn(false);
+
+        doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(authorWithNullDescription);
+
+        CreateAuthorServiceException exceptionWithNullDescription = assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(authorWithNullDescription), "Must throw CreateAuthorServiceException for null description");
+        assertEquals("Problemas ao criar Author", exceptionWithNullDescription.getMessage());
+
+        verify(createAuthorGateway, times(1)).execute(authorWithNullDescription);
     }
 
     @Test
     @DisplayName("Deve lançar CreateAuthorServiceException quando ocorrer erro na criação de autor")
     public void ThrowsCreateAuthorServiceExceptionWhenErrorOccursWhileCreatingAuthor() throws CreateGatewayException {
-        // Crie um Author qualquer para usar como parâmetro no serviço
         Author author = AuthorBuilder.anAuthor().build();
 
-        // Simule o comportamento do CreateAuthorGateway lançando a exceção CreateGatewayException
         doThrow(CreateGatewayException.class).when(createAuthorGateway).execute(author);
 
-        // Chame o serviço e verifique se ele lança a exceção CreateAuthorServiceException
         assertThrows(CreateAuthorServiceException.class, () -> createAuthorServiceImp.execute(author));
 
-        // Verifique se o CreateAuthorGateway foi chamado corretamente
         verify(createAuthorGateway, times(1)).execute(author);
     }
 }
