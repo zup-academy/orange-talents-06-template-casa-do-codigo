@@ -4,24 +4,25 @@ import com.projeto.casadocodigo.domain.author.Author;
 import com.projeto.casadocodigo.gateway.CreateAuthorGateway;
 import com.projeto.casadocodigo.gateway.database.model.AuthorDatabase;
 import com.projeto.casadocodigo.gateway.database.repository.AuthorRepository;
-import com.projeto.casadocodigo.gateway.exception.CreateGatewayException;
+import com.projeto.casadocodigo.gateway.exception.CreateAuthorGatewayException;
+import com.projeto.casadocodigo.gateway.exception.GatewayException;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CreateAuthorGatewayPostgresql implements CreateAuthorGateway {
 
-    AuthorRepository AuthorRepository;
+    AuthorRepository authorRepository;
 
-    public CreateAuthorGatewayPostgresql(AuthorRepository AuthorRepository) {
-        this.AuthorRepository = AuthorRepository;
+    public CreateAuthorGatewayPostgresql(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
 
     }
 
-    public void execute(Author author) throws CreateGatewayException {
+    public void execute(Author author) throws GatewayException {
         try {
-            AuthorRepository.save(new AuthorDatabase(author));
+            authorRepository.save(new AuthorDatabase(author));
         } catch (Exception e) {
-            throw new CreateGatewayException(e);
+            throw new CreateAuthorGatewayException(e);
         }
     }
 }

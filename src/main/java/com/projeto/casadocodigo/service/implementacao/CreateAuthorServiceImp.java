@@ -2,11 +2,11 @@ package com.projeto.casadocodigo.service.implementacao;
 
 import com.projeto.casadocodigo.domain.author.Author;
 import com.projeto.casadocodigo.gateway.CreateAuthorGateway;
-import com.projeto.casadocodigo.gateway.exception.CreateGatewayException;
+import com.projeto.casadocodigo.gateway.exception.CreateAuthorGatewayException;
+import com.projeto.casadocodigo.gateway.exception.GatewayException;
 import com.projeto.casadocodigo.service.CreateAuthorService;
 import com.projeto.casadocodigo.service.ExistsByEmailService;
 import com.projeto.casadocodigo.service.exception.CreateAuthorServiceException;
-import com.projeto.casadocodigo.service.exception.ExistsByEmailServiceException;
 import com.projeto.casadocodigo.service.exception.ServiceException;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +24,7 @@ public class CreateAuthorServiceImp implements CreateAuthorService {
         try {
             checkIfEmailExists(author.getEmail());
             createAuthorGateway.execute(author);
-        } catch (CreateGatewayException e) {
+        } catch (GatewayException e) {
             throw new CreateAuthorServiceException("Problemas ao criar Author", e);
         }
     }
